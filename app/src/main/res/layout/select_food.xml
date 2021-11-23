@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        //음식 선택 화면
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_gravity="center">
+
+            <ImageButton
+                android:id="@+id/ko_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ko_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="33dp" />
+
+            <ImageButton
+                android:id="@+id/snack"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/snack"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="226dp"
+                tools:layout_editor_absoluteY="33dp" />
+
+            <ImageButton
+                android:id="@+id/ch_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ch_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="131dp" />
+
+            <ImageButton
+                android:id="@+id/jp_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/jp_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="226dp"
+                tools:layout_editor_absoluteY="131dp" />
+
+            <ImageButton
+                android:id="@+id/west_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/west_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="226dp" />
+
+            <ImageButton
+                android:id="@+id/fast_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/fast_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="226dp"
+                tools:layout_editor_absoluteY="226dp" />
+
+            <ImageButton
+                android:id="@+id/world_food"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/world_food"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="45dp"
+                tools:layout_editor_absoluteY="318dp" />
+
+            <ImageButton
+                android:id="@+id/dessert"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:background="#ffffff"
+                android:scaleType="fitCenter"
+                android:src="@drawable/des"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="200dp"
+                tools:layout_editor_absoluteY="300dp" />
+        </GridLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="85dp"
+            android:src="@drawable/letter"
+            android:scaleType="fitCenter"/>
+    </LinearLayout>
+</LinearLayout>
