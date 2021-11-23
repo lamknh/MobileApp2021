@@ -2,7 +2,6 @@ package com.example.kakaomap
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,58 +12,134 @@ import android.os.Build
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
-import android.location.LocationManager
-import android.net.Uri
-import android.provider.Settings
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import com.example.kakaomap.databinding.ActivityMainBinding
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import net.daum.mf.map.api.MapPOIItem
-import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
 import java.util.*
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import com.example.kakaomap.DAO.Address
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
     private var getLongitude : Double = 0.0
     private var getLatitude : Double = 0.0
 
-    private lateinit var button : Button
-
-    private val ACCESS_FINE_LOCATION = 1000
+    //private lateinit var button : Button
 
     private lateinit var mapView : MapView
+
+    private lateinit var restaurantAdapter: RestaurantAdapter
+
+    private val GEOCODE_URL : String ="http://dapi.kakao.com/v2/local/search/address.json?query="
+    private val GEOCODE_USER_INFO : String ="6869c9d359249f596849fc99c5ff98f5"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        button = findViewById(R.id.button)
+        if (Build.VERSION.SDK_INT > 9) {
+            val policy = ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
 
-        button.setOnClickListener{
-            if (checkLocationService()) {
-                // GPS가 켜져있을 경우
-                permissionCheck()
-            } else {
-                // GPS가 꺼져있을 경우
-                Toast.makeText(this, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
+        getGeoCode("대구광역시 중구 동성로2가 동성로2길 81")
+
+        mapView = MapView(this)
+
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled : Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        //권한 확인
+        if(Build.VERSION.SDK_INT >= 23 &&
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+        } else {
+            when { //provider 제공자 활성화 여부 체크
+                isNetworkEnabled -> {
+//                        val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
+//                        getLongitude = location?.longitude!!
+//                        getLatitude = location?.latitude!!
+                    getLongitude = 128.610
+                    getLatitude = 35.880
+                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
+                    Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
+                }
+                isGPSEnabled -> {
+                    val location =
+                        lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) // 인터넷 기반 위치 찾기
+                    getLongitude = location?.longitude!!
+                    getLatitude = location?.latitude!!
+                    mapView.setMapCenterPoint(
+                        MapPoint.mapPointWithGeoCoord(
+                            getLatitude,
+                            getLongitude
+                        ), true
+                    )
+                    Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
+        //button = findViewById(R.id.button)
 
-        mapView = MapView(this)
+//        button?.setOnClickListener{
+//            val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//            val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+//            val isNetworkEnabled : Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+//            //권한 확인
+//            if(Build.VERSION.SDK_INT >= 23 &&
+//                ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+//                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+//            } else {
+//                when { //provider 제공자 활성화 여부 체크
+//                    isNetworkEnabled -> {
+////                        val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
+////                        getLongitude = location?.longitude!!
+////                        getLatitude = location?.latitude!!
+//                        getLongitude = 128.6103
+//                        getLatitude = 35.8888
+//                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
+//                        Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
+//                    }
+//                    isGPSEnabled -> {
+//                        val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) // 인터넷 기반 위치 찾기
+//                        getLongitude = location?.longitude!!
+//                        getLatitude = location?.latitude!!
+//                        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
+//                        Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+                //주기적 업데이트
+//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1F, gpsLocationListener)
+//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1F, gpsLocationListener)
+//            lm.removeUpdates(gpsLocationListener) //해제부분
+//            }
+
+//            val gpsLocationListener = LocationListener { location ->
+//                val provider : String = location.provider
+//                val longitude : Double = location.longitude
+//                val latitude : Double = location.latitude
+//                val altitude : Double = location.altitude
+//            }
+//        }
 
         mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(layoutInflater))  // 커스텀 말풍선 등록
 
         // 중심점 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.8888, 128.6103), true)
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
         // 중심점 변경 + 줌 레벨 변경
         //mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(33.41, 126.52), 9, true)
         // 줌 인
@@ -72,6 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         // 줌 아웃
         mapView.zoomOut(true);
+
 
         //test Class
         val testGIO1 = TestGIO("test1", "description1",35.8888, 128.6103)
@@ -95,13 +171,27 @@ class MainActivity : AppCompatActivity() {
                 //customSelectedImageResourceId = R.drawable.이미지       // 클릭 시 커스텀 마커 이미지
                 isCustomImageAutoscale = false      // 커스텀 마커 이미지 크기 자동 조정
                 setCustomImageAnchor(0.5f, 1.0f)    // 마커 이미지 기준점
-                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(testList[i].latitude, testList[i].longitude), true)
             }
             mapView.addPOIItem(marker)
         }
 
         val mapViewContainer = findViewById<View>(R.id.map_view) as ViewGroup
         mapViewContainer.addView(mapView)
+
+        restaurantAdapter = RestaurantAdapter()
+
+        restaurantAdapter.setItemClickListener(object: RestaurantAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                // 클릭 시 이벤트 작성
+                Toast.makeText(this@MainActivity, position.toString() + " Clicked", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        this.findViewById<RecyclerView>(R.id.in_num_list).apply {
+            layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL,false)
+            adapter = restaurantAdapter
+        }
     }
 
     // 커스텀 말풍선 클래스
@@ -123,6 +213,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getGeoCode(address : String) {
+        System.out.println("getting GeoCode")
+        val obj : URL
+        try{
+            val address : String = URLEncoder.encode(address, "UTF-8")
+
+            obj = URL(GEOCODE_URL+address)
+
+            val con : HttpURLConnection = obj.openConnection() as HttpURLConnection
+
+            con.setRequestMethod("GET")
+            con.setRequestProperty("Authorization", "KakaoAK " + GEOCODE_USER_INFO)
+            con.setRequestProperty("content-type", "application/json")
+            con.setDoOutput(true)
+            con.setUseCaches(false)
+            con.setDefaultUseCaches(false)
+
+            val data = con.inputStream.bufferedReader().readText()
+            val dataList = "[$data]"
+            val xy = Gson().fromJson(dataList, Array<Address>::class.java).toList()
+            for(i in 0..xy.size-1){
+                System.out.println("x: ${xy[i].documents[i].address.x}, y: ${xy[i].documents[i].address.y}")
+            }
+
+            //System.out.println(data)
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun getAppKeyHash() { // 앱 해시값 얻기
         try {
             val info =
@@ -137,84 +257,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("name not found", e.toString())
         }
-    }
-
-
-
-    // 위치 권한 확인
-    private fun permissionCheck() {
-        val preference = getPreferences(MODE_PRIVATE)
-        val isFirstCheck = preference.getBoolean("isFirstPermissionCheck", true)
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // 권한이 없는 상태
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // 권한 거절 (다시 한 번 물어봄)
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage("현재 위치를 확인하시려면 위치 권한을 허용해주세요.")
-                builder.setPositiveButton("확인") { dialog, which ->
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ACCESS_FINE_LOCATION)
-                }
-                builder.setNegativeButton("취소") { dialog, which ->
-
-                }
-                builder.show()
-            } else {
-                if (isFirstCheck) {
-                    // 최초 권한 요청
-                    preference.edit().putBoolean("isFirstPermissionCheck", false).apply()
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ACCESS_FINE_LOCATION)
-                } else {
-                    // 다시 묻지 않음 클릭 (앱 정보 화면으로 이동)
-                    val builder = AlertDialog.Builder(this)
-                    builder.setMessage("현재 위치를 확인하시려면 설정에서 위치 권한을 허용해주세요.")
-                    builder.setPositiveButton("설정으로 이동") { dialog, which ->
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
-                        startActivity(intent)
-                    }
-                    builder.setNegativeButton("취소") { dialog, which ->
-
-                    }
-                    builder.show()
-                }
-            }
-        } else {
-            Log.d("태그", "권한 있음")
-            // 권한이 있는 상태
-            startTracking()
-        }
-    }
-
-    // 권한 요청 후 행동
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == ACCESS_FINE_LOCATION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 권한 요청 후 승인됨 (추적 시작)
-                Toast.makeText(this, "위치 권한이 승인되었습니다", Toast.LENGTH_SHORT).show()
-                startTracking()
-            } else {
-                // 권한 요청 후 거절됨 (다시 요청 or 토스트)
-                Toast.makeText(this, "위치 권한이 거절되었습니다", Toast.LENGTH_SHORT).show()
-                permissionCheck()
-            }
-        }
-    }
-
-    // GPS가 켜져있는지 확인
-    private fun checkLocationService(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-    }
-
-    // 위치추적 시작
-    private fun startTracking() {
-        Log.d("태그", "추적시작")
-        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-    }
-
-    // 위치추적 중지
-    private fun stopTracking() {
-        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
     }
 }
 
