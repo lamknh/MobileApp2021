@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="top">
+
+    <android.widget.EditText
+        android:id="@+id/txtLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:freezesText="false"
+        android:hint="구/군 단위로 지역 입력"/>
+
+    <EditText
+        android:id="@+id/txtMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="메뉴 입력"/>
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="시작"/>
+
+
+</LinearLayout>
