@@ -11,22 +11,26 @@
         android:layout_height="wrap_content"
         android:src="@drawable/temp_map"
         />
-
+    <TextView
+        android:id="@+id/txtPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="curPosition"/>
     <TextView
         android:id="@+id/txtName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="resultName"
         />
     <TextView
         android:id="@+id/txtAddress"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="resultAddress"
         />
     <TextView
         android:id="@+id/txtDistance"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="resultDistance"
         />

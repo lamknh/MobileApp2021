@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +26,12 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 import java.security.MessageDigest
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.*
 
 class MainActivity : AppCompatActivity() {
-    lateinit var txtLoc : EditText
+    lateinit var txtLoc : TextView
     lateinit var txtMenu : EditText
     lateinit var btnStart : Button
 
@@ -37,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var x : String
     lateinit var y : String
+
+    lateinit var location : android.location.Address
+    var admin : String? = null
+    var subadmin : String? = null
 
     val j_food = intArrayOf(R.drawable.j_ramen, R.drawable.j_sasimi, R.drawable.j_susi, R.drawable.j_udon)
     val k_food = intArrayOf(R.drawable.k_bossam, R.drawable.k_samgyetang, R.drawable.k_tang, R.drawable.k_tteokbokki)
@@ -50,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         getAppKeyHash()
-        getGeoCode("대구광역시 중구 동성로2가 동성로2길 81")
+        //getGeoCode("대구광역시 중구 동성로2가 동성로2길 81")
 
         val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -60,39 +69,84 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
         } else {
-            when { //provider 제공자 활성화 여부 체크
-                isNetworkEnabled -> {
-                    val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
+            var networkResultChecker = false
+            var gpsResultChecker = false
+            if(isNetworkEnabled) {
+                val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
+                if(location != null) {
                     getLongitude = location?.longitude!!
                     getLatitude = location?.latitude!!
                     // mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
                     Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
                     println("네트워크: " + getLatitude.toString() + "|" + getLongitude.toString())
-                }
-                isGPSEnabled -> {
-                    val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) // 인터넷 기반 위치 찾기
+                } else networkResultChecker = true
+            }
+            if (isGPSEnabled && networkResultChecker) {
+                val location =
+                    lm.getLastKnownLocation(LocationManager.GPS_PROVIDER) // GPS 기반 위치 찾기
+                if(location != null) {
                     getLongitude = location?.longitude!!
                     getLatitude = location?.latitude!!
                     //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true )
                     Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
                     println("GPS: " + getLatitude.toString() + "|" + getLongitude.toString())
+                } else gpsResultChecker = true
+            }
+            if(gpsResultChecker) {
+                Toast.makeText(this, "현재 위치를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                // 버튼 사용 불가능
+            } else {
+                var mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
+                var mResultList: List<android.location.Address>? = null
+                try {
+                    mResultList = mGeoCoder.getFromLocation(getLatitude, getLongitude, 1)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+                if(mResultList != null) {
+                    location = mResultList[0]
+
+                    var loca_arr = location.getAddressLine(0).split(" ")
+
+                    admin = location.adminArea
+                    if(admin == null) {
+                        admin = loca_arr.get(1)
+                    }
+
+                    subadmin = location.subAdminArea
+                    if(subadmin == null) {
+                        subadmin = loca_arr.get(2)
+                        if (!(subadmin!!.endsWith("구") || subadmin!!.endsWith("군"))) {
+                            subadmin = null
+                            Toast.makeText(this, "현재 위치를 불러왔지만, 주소 문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                            // 버튼 사용 불가능
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "현재 위치를 불러왔지만, 주소 문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                    // 버튼 사용 불가능
                 }
             }
         }
 
         txtLoc = findViewById(R.id.txtLoc)
+        txtLoc.setText("$admin $subadmin")
         txtMenu = findViewById(R.id.txtMenu)
         btnStart = findViewById(R.id.btnStart)
 
         btnStart.setOnClickListener {
-            var location = txtLoc.text.toString()
+            //var location = txtLoc.text.toString()
             var menu = txtMenu.text.toString()
 
             // getGeoCode()
 
 
-            if(!(location.equals("달서구") || location.equals("중구") || location.equals("북구") || location.equals("서구") ||
-                        location.equals("남구") || location.equals("동구") || location.equals("수성구") || location.equals("달성군"))) {
+            if(!(admin.equals("대구광역시"))){
+                var intent = Intent(applicationContext, FailActivity::class.java)
+                startActivity(intent)
+            } else if(!(subadmin.equals("달서구") || subadmin.equals("중구") || subadmin.equals("북구") || subadmin.equals("서구") ||
+                        subadmin.equals("남구") || subadmin.equals("동구") || subadmin.equals("수성구") || subadmin.equals("달성군"))) {
                 var intent = Intent(applicationContext, FailActivity::class.java)
                 startActivity(intent)
             } else if(menu.isBlank()) {
@@ -101,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                 // post
                 val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
 
-                var url = "https://www.daegufood.go.kr/kor/api/tasty.html?mode=json&addr=" + location
+                var url = "https://www.daegufood.go.kr/kor/api/tasty.html?mode=json&addr=" + subadmin
                 val client = OkHttpClient()
                 val request = Request.Builder()
                     .url(url)
@@ -131,9 +185,9 @@ class MainActivity : AppCompatActivity() {
                                     var temp = ResultDTO()
                                     temp.name = restaurantDTO.restaurantData!!.get(i).BZ_NM!!
                                     getGeoCode(restaurantDTO.restaurantData!!.get(i).GNG_CS!!)
-                                    temp.x = x
-                                    temp.y = y
-                                    temp.distance = (i + 1).toString()
+                                    temp.x = x // longitude, 경도
+                                    temp.y = y // latitude, 위도
+                                    temp.distance = getDistance(y.toDouble(), x.toDouble(), getLatitude, getLongitude).toString()
                                     resultAry.add(temp)
                                 }
                             }
@@ -145,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                                 var intent = Intent(applicationContext, ResultActivity::class.java)
                                 intent.putExtra("result", resultAry)
                                 intent.putExtra("getLongitude", getLongitude)
-                                intent.putExtra("getLatitude", getLongitude)
+                                intent.putExtra("getLatitude", getLatitude)
 
                                 startActivity(intent)
                             }
@@ -154,6 +208,14 @@ class MainActivity : AppCompatActivity() {
                 })
             }
         }
+    }
+
+    fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int { // 거리 계산(단위 : 미터)
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = sin(dLat / 2).pow(2.0) + sin(dLon / 2).pow(2.0) * cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2))
+        val c = 2 * asin(sqrt(a))
+        return (6372.8 * 1000 * c).toInt()
     }
 
     private fun getAppKeyHash() { // 앱 해시값 얻기

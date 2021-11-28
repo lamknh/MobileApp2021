@@ -5,11 +5,12 @@
     android:orientation="vertical"
     android:gravity="top">
 
-    <android.widget.EditText
+    <TextView
         android:id="@+id/txtLoc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:freezesText="false"
+        android:textSize="20dp"
+        android:gravity="center"
         android:hint="구/군 단위로 지역 입력"/>
 
     <EditText
