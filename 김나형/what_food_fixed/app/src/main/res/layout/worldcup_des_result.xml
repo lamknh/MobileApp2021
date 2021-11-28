@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_final_result">
+
+
+
+    <LinearLayout
+        android:layout_width="414dp"
+        android:layout_height="130dp">
+        <TextView
+            android:layout_width="390dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/notosanskr"
+            android:textColor="@color/black"
+            android:textSize="38dp"
+            android:text="오늘의 음식은"
+            android:gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="414dp"
+        android:layout_height="330dp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/food_result"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/tteokbokki"
+            android:gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="414dp"
+        android:layout_height="60dp">
+        <TextView
+            android:id="@+id/food_result_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/nanumgothicextrabold"
+            android:textColor="@color/black"
+            android:textSize="35dp"
+            android:text="떡볶이"
+            android:gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_food_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:contentDescription="no"
+            android:src="@drawable/ok_button" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_restart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:contentDescription="no"
+            android:src="@drawable/reset_button" />
+    </LinearLayout>
+</LinearLayout>

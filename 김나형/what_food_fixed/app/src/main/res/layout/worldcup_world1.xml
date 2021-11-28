@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/worldcupback">
+//8강전
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center"
+            android:layout_width="414dp"
+            android:layout_height="70dp"
+            android:fontFamily="@font/gugi"
+            android:gravity="center"
+            android:text="음식 이상형 월드컵"
+            android:textColor="#ffffff"
+            android:textSize="35dp" />
+
+    <TextView
+        android:id="@+id/cup"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="8강 1 / 4"
+        android:textSize="36dp"
+        android:textColor="#000000"
+        android:fontFamily="@font/gugi"
+        android:layout_marginBottom="50dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/leftFood"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tteokbokki"
+            android:fontFamily="@font/nanumgothicextrabold"
+            android:text="V"
+            android:textColor="@color/white"
+            android:gravity="center|right"
+            android:textSize="48dp"/>
+        <TextView
+            android:id="@+id/rightFood"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ramen"
+            android:fontFamily="@font/nanumgothicextrabold"
+            android:text="S"
+            android:textColor="@color/white"
+            android:gravity="center|left"
+            android:textSize="48dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/leftFoodName"
+            android:layout_width="202dp"
+            android:layout_height="match_parent"
+            android:text="떡볶기"
+            android:fontFamily="@font/nanumgothicextrabold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="28dp"/>
+        <TextView
+            android:id="@+id/rightFoodName"
+            android:layout_width="202dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/nanumgothicextrabold"
+            android:text="라면"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="28dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/HomeButton1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:contentDescription="no"
+            android:src="@drawable/home" />
+    </LinearLayout>
+</LinearLayout>
