@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backpic">
+//검색 결과에 식당이 없을 때
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:src="@drawable/no_food"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:src="@drawable/hungry"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:layout_margin="20dp"
+        android:src="@drawable/sorry"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/back_init"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_init"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</LinearLayout>

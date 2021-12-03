@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/knukd/AndroidStudioProjects/what_food_fixed/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/knukd/AndroidStudioProjects/what_food_fixed/app/src/main/res/layout/fail.xml" value="0.16510416666666666" />
+        <entry key="..\:/Users/knukd/AndroidStudioProjects/what_food_fixed/app/src/main/res/layout/result.xml" value="0.16770833333333332" />
+        <entry key="..\:/Users/knukd/AndroidStudioProjects/what_food_fixed/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/knukd/AndroidStudioProjects/what_food_fixed/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2552083333333333" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.4197916666666667" />
+        <entry key="app/src/main/res/font/font.xml" value="0.3076923076923077" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fail.xml" value="0.2105978260869565" />
+        <entry key="app/src/main/res/layout/food_worldcup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/kakaomap.xml" value="0.2105978260869565" />
+        <entry key="app/src/main/res/layout/no_food.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/restaurant_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/result.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/select_food.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/selectfinal.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/selectfood.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/worldcup_ch1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_ch2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_ch_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_chf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_des1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_des2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_des_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_desf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_fast1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_fast2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_fast_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_fastf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_jp1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_jp2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_jp_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_jpf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_ko2.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/worldcup_result.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/worldcup_snack1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_snack2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_snack_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_snackf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_west1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_west2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_west_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_westf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_world1.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_world2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_world_result.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/worldcup_worldf.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.30833333333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
