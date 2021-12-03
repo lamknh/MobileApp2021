@@ -10,7 +10,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -78,15 +77,13 @@ class worldcup_ch_result: Activity() {
             var gpsResultChecker = false
             if(isNetworkEnabled) {
                 val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
-                getLongitude = 128.610
-                getLatitude = 35.880
                 if(location != null) {
                     getLongitude = location?.longitude!!
                     getLatitude = location?.latitude!!
                     // mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
                     // Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
                     // println("네트워크: " + getLatitude.toString() + "|" + getLongitude.toString())
-                } else networkResultChecker = false
+                } else networkResultChecker = true
             }
             if (isGPSEnabled && networkResultChecker) {
                 val location =
@@ -164,13 +161,11 @@ class worldcup_ch_result: Activity() {
                 val client = OkHttpClient()
                 val request = Request.Builder()
                     .url(url)
-                    .get()
                     .build()
 
-                client.newCall(request).enqueue(object : Callback {
+                val response = client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        Log.d("test", "fail")
-                        e.printStackTrace()
+                        TODO("Not yet implemented")
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -191,18 +186,14 @@ class worldcup_ch_result: Activity() {
                                 if (searchInfo.containsMatchIn(restaurantDTO.restaurantData!!.get(i).MNU!!)) {
                                     var temp = ResultDTO()
                                     temp.name = restaurantDTO.restaurantData!!.get(i).BZ_NM!!
-                                    getGeoCode(restaurantDTO.restaurantData!!.get(i).GNG_CS!!)
-                                    if(x.toDouble() != 0.0 && y.toDouble() != 0.0){ // 없는 주소인 경우 Exception Handling
-                                        temp.x = x // longitude, 경도
-                                        temp.y = y // latitude, 위도
-                                        temp.distance = getDistance(
-                                            y.toDouble(),
-                                            x.toDouble(),
-                                            getLatitude,
-                                            getLongitude
-                                        ).toString()
-                                        resultAry.add(temp)
-                                    }
+                                    println(temp.name)
+                                    var location = restaurantDTO.restaurantData!!.get(i).GNG_CS!!
+                                    getGeoCode(locationHandler((location)))
+                                    temp.x = x // longitude, 경도
+                                    temp.y = y // latitude, 위도
+                                    temp.distance = getDistance(y.toDouble(), x.toDouble(), getLatitude, getLongitude).toString()
+                                    resultAry.add(temp)
+
                                 }
                             }
 
@@ -229,6 +220,16 @@ class worldcup_ch_result: Activity() {
             startActivity(goto_init)
             finish()
         }
+    }
+
+    private fun locationHandler(location: String): String {
+        var temp = location;
+
+        when(temp) {
+            "대구광역시 북구 침산동 105-2" -> temp = "대구 북구 침산동 1757"
+        }
+
+        return temp
     }
 
     private fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int { // 거리 계산(단위 : 미터)
@@ -259,16 +260,15 @@ class worldcup_ch_result: Activity() {
             val data = con.inputStream.bufferedReader().readText()
             val dataList = "[$data]"
             val xy = Gson().fromJson(dataList, Array<Address>::class.java).toList()
-            if(xy[0].documents.isEmpty()){ // 나형 : 없는 주소인 경우 Exception Handling
-                x = "0"
-                y = "0"
-            } else {
-                for(i in 0..xy.size-1){
-                    System.out.println("x: ${xy[i].documents[i].address.x}, y: ${xy[i].documents[i].address.y}")
-                }
-                x = xy[0].documents[0].address.x
-                y = xy[0].documents[0].address.y
+            for(i in 0..xy.size-1){
+                xy[i].documents
+                System.out.println("x: ${xy[i].documents[i].address.x}, y: ${xy[i].documents[i].address.y}")
             }
+
+            x = xy[0].documents[0].address.x
+            y = xy[0].documents[0].address.y
+
+            //System.out.println(data)
         } catch (e : Exception) {
             e.printStackTrace()
         }

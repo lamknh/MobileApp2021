@@ -36,8 +36,8 @@ class worldcup_ko_result: Activity() {
     private var getLongitude : Double = 0.0
     private var getLatitude : Double = 0.0
 
-    var x : String = ""
-    var y : String = ""
+    lateinit var x : String
+    lateinit var y : String
 
     lateinit var location : android.location.Address
     var admin : String? = null
@@ -78,15 +78,13 @@ class worldcup_ko_result: Activity() {
             var gpsResultChecker = false
             if(isNetworkEnabled) {
                 val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) // 인터넷 기반 위치 찾기
-                getLongitude = 128.610
-                getLatitude = 35.880
                 if(location != null) {
                     getLongitude = location?.longitude!!
                     getLatitude = location?.latitude!!
                     // mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(getLatitude, getLongitude), true)
                     // Toast.makeText(this, "현재 위치를 불러옵니다", Toast.LENGTH_SHORT).show()
                     // println("네트워크: " + getLatitude.toString() + "|" + getLongitude.toString())
-                } else networkResultChecker = false //true
+                } else networkResultChecker = true
             }
             if (isGPSEnabled && networkResultChecker) {
                 val location =
@@ -114,7 +112,6 @@ class worldcup_ko_result: Activity() {
 
                 if(mResultList != null) {
                     location = mResultList[0]
-                    System.out.println(location)
 
                     var loca_arr = location.getAddressLine(0).split(" ")
 
@@ -142,12 +139,13 @@ class worldcup_ko_result: Activity() {
         }
         /* GPS 삽입 부분 종료 */
 
+
         //검색결과확인
         btn_result.setOnClickListener {
             Toast.makeText(applicationContext, resultName, Toast.LENGTH_SHORT).show()
-
             var menu = resultName
 
+            subadmin = "북구"
             if(!(admin.equals("대구광역시"))){
                 var intent = Intent(applicationContext, FailActivity::class.java)
                 startActivity(intent)
@@ -165,66 +163,54 @@ class worldcup_ko_result: Activity() {
                 val client = OkHttpClient()
                 val request = Request.Builder()
                     .url(url)
-                    .get()
                     .build()
 
-                client.newCall(request).enqueue(object : Callback {
+                val response = client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        Log.d("test", "fail")
-                        e.printStackTrace()
+                        TODO("Not yet implemented")
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        if (response.isSuccessful) {
-                            Thread {
-                                var str = response.body!!.string()
-                                str = str!!.replace(", }", "#}\n") // json 포맷으로 맞추기 위함
+                        Thread {
+                            var str = response.body?.string()
+                            str = str!!.replace(", }", "#}\n") // json 포맷으로 맞추기 위함
 
-                                str = str.replace("MNU\":\"\"", "MNU\":\"") // 서구 데이터 중 하나에 대한 에러 제거용
+                            str = str.replace("MNU\":\"\"", "MNU\":\"") // 서구 데이터 중 하나에 대한 에러 제거용
 
-                                var rgx = ",\"SMPL_DESC[^#]*#".toRegex() // json 포맷으로 맞추기 위해 정규식 사용해서 replace
-                                str = str.replace(rgx, "")
+                            var rgx = ",\"SMPL_DESC[^#]*#".toRegex() // json 포맷으로 맞추기 위해 정규식 사용해서 replace
+                            str = str.replace(rgx, "")
 
-                                var restaurantDTO = Gson().fromJson(str, RestaurantDTO::class.java)
+                            var restaurantDTO = Gson().fromJson(str, RestaurantDTO::class.java)
 
-                                var resultAry = ArrayList<ResultDTO>()
-                                for (i: Int in 0..(restaurantDTO.total - 1)) {
-                                    var searchInfo = menu.toString().toRegex()
-                                    if (searchInfo.containsMatchIn(restaurantDTO.restaurantData!!.get(i).MNU!!)) {
-                                        var temp = ResultDTO()
-                                        temp.name = restaurantDTO.restaurantData!!.get(i).BZ_NM!!
-                                        getGeoCode(restaurantDTO.restaurantData!!.get(i).GNG_CS!!)
-                                        if(x.toDouble() != 0.0 && y.toDouble() != 0.0){ // 없는 주소인 경우 Exception Handling
-                                            temp.x = x // longitude, 경도
-                                            temp.y = y // latitude, 위도
-                                            temp.distance = getDistance(
-                                                y.toDouble(),
-                                                x.toDouble(),
-                                                getLatitude,
-                                                getLongitude
-                                            ).toString()
-                                            resultAry.add(temp)
-                                        }
-                                    }
+                            var resultAry = ArrayList<ResultDTO>()
+                            for (i: Int in 0..(restaurantDTO.total - 1)) {
+                                var searchInfo = menu.toString().toRegex()
+                                if (searchInfo.containsMatchIn(restaurantDTO.restaurantData!!.get(i).MNU!!)) {
+                                    var temp = ResultDTO()
+                                    temp.name = restaurantDTO.restaurantData!!.get(i).BZ_NM!!
+                                    println(temp.name)
+                                    var location = restaurantDTO.restaurantData!!.get(i).GNG_CS!!
+                                    getGeoCode(locationHandler((location)))
+                                    temp.x = x // longitude, 경도
+                                    temp.y = y // latitude, 위도
+                                    temp.distance = getDistance(y.toDouble(), x.toDouble(), getLatitude, getLongitude).toString()
+                                    resultAry.add(temp)
+
                                 }
+                            }
 
-                                if (resultAry.isEmpty()) {
-                                    var intent =
-                                        Intent(applicationContext, FailActivity::class.java)
-                                    startActivity(intent)
-                                } else {
-                                    var intent =
-                                        Intent(applicationContext, ResultActivity::class.java)
-                                    intent.putExtra("result", resultAry)
-                                    intent.putExtra("getLongitude", getLongitude)
-                                    intent.putExtra("getLatitude", getLatitude)
+                            if(resultAry.isEmpty()) {
+                                var intent = Intent(applicationContext, FailActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                var intent = Intent(applicationContext, ResultActivity::class.java)
+                                intent.putExtra("result", resultAry)
+                                intent.putExtra("getLongitude", getLongitude)
+                                intent.putExtra("getLatitude", getLatitude)
 
-                                    startActivity(intent)
-                                }
-                            }.start()
-                        } else {
-                            Log.d("response", "Fail")
-                        }
+                                startActivity(intent)
+                            }
+                        }.start()
                     }
                 })
             }
@@ -236,6 +222,16 @@ class worldcup_ko_result: Activity() {
             startActivity(goto_init)
             finish()
         }
+    }
+
+    private fun locationHandler(location: String): String {
+        var temp = location;
+
+        when(temp) {
+            "대구광역시 북구 침산동 105-2" -> temp = "대구 북구 침산동 1757"
+        }
+
+        return temp
     }
 
     private fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int { // 거리 계산(단위 : 미터)
@@ -266,17 +262,14 @@ class worldcup_ko_result: Activity() {
             val data = con.inputStream.bufferedReader().readText()
             val dataList = "[$data]"
             val xy = Gson().fromJson(dataList, Array<Address>::class.java).toList()
-
-            if(xy[0].documents.isEmpty()){ // 나형 : 없는 주소인 경우 Exception Handling
-                x = "0"
-                y = "0"
-            } else {
-                for(i in 0..xy.size-1){
-                    System.out.println("x: ${xy[i].documents[i].address.x}, y: ${xy[i].documents[i].address.y}")
-                }
-                x = xy[0].documents[0].address.x
-                y = xy[0].documents[0].address.y
+            for(i in 0..xy.size-1){
+                System.out.println("x: ${xy[i].documents[i].address.x}, y: ${xy[i].documents[i].address.y}")
             }
+
+            x = xy[0].documents[0].address.x
+            y = xy[0].documents[0].address.y
+
+            //System.out.println(data)
         } catch (e : Exception) {
             e.printStackTrace()
         }
