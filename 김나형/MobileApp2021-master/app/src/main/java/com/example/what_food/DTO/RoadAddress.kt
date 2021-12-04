@@ -1,4 +1,4 @@
-package com.example.what_food
+package com.example.what_food.DTO
 data class RoadAddress(
     val address_name: String,
     val building_name: String,

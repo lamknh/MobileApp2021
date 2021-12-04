@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 
 class second : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +19,7 @@ class second : Activity() {
         var world_food : ImageButton = findViewById<ImageButton>(R.id.world_food)
         var dessert : ImageButton = findViewById<ImageButton>(R.id.dessert)
         var snack : ImageButton = findViewById<ImageButton>(R.id.snack)
+        var recommend : ImageButton = findViewById<ImageButton>(R.id.recommend_btn)
         var btnReturn = findViewById<ImageButton>(R.id.back)
 
         //뒤로가기 버튼
@@ -25,6 +27,13 @@ class second : Activity() {
             var goto_init = Intent(applicationContext, MainActivity::class.java)
             startActivity(goto_init)
             finish()
+        }
+
+        recommend.setOnClickListener{
+            Toast.makeText(this, "메뉴추천", Toast.LENGTH_SHORT).show()
+//            var goto_init = Intent(applicationContext, ResultActivity::class.java)
+//            startActivity(goto_init)
+//            finish()
         }
 
         ko_food.setOnClickListener{

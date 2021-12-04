@@ -5,65 +5,96 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_final_result">
+    android:background="@drawable/backpic">
 
 
 
     <LinearLayout
-        android:layout_width="414dp"
-        android:layout_height="130dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        >
+<!--        <TextView-->
+<!--            android:layout_width="390dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:fontFamily="@font/notosanskr"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="38dp"-->
+<!--            android:text="오늘의 음식은"-->
+<!--            android:gravity="center"/>-->
         <TextView
-            android:layout_width="390dp"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/notosanskr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘의 메뉴는"
+            android:letterSpacing="-0.1"
+            android:textSize="30sp"
             android:textColor="@color/black"
-            android:textSize="38dp"
-            android:text="오늘의 음식은"
-            android:gravity="center"/>
+            android:layout_marginTop="20dp"
+            />
+        <View
+            android:layout_width="250dp"
+            android:layout_height="4dp"
+            android:background="#FFCC00"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="414dp"
-        android:layout_height="330dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center">
+
         <ImageView
             android:id="@+id/food_result"
             android:layout_width="300dp"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
             android:background="@drawable/tteokbokki"
-            android:gravity="center"/>
+            android:gravity="center" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="414dp"
-        android:layout_height="60dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        >
         <TextView
             android:id="@+id/food_result_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/nanumgothicextrabold"
             android:textColor="@color/black"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:text="떡볶이"
+            android:textStyle="bold"
             android:gravity="center"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        >
 
         <ImageButton
             android:id="@+id/btn_food_check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="80dp"
             android:background="#ffffff"
             android:scaleType="fitCenter"
             android:contentDescription="no"
-            android:src="@drawable/ok_button" />
+            android:src="@drawable/ok_button"
+            android:paddingTop="5dp"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
         <ImageButton
             android:id="@+id/btn_restart"
-            android:layout_width="match_parent"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:scaleType="fitCenter"

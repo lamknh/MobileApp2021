@@ -19,19 +19,48 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:src="@drawable/logo"/>-->
+<!--    </LinearLayout>-->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:src="@drawable/logo"/>-->
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:src="@drawable/logo"/>
+            android:layout_height="wrap_content"
+            android:text="뭘 먹을까?"
+            android:textSize="35sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:letterSpacing="-0.1"
+            />
+        <View
+            android:layout_width="250dp"
+            android:layout_height="4dp"
+            android:background="#FFCC00"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical"
+        >
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,13 +155,23 @@
                 tools:layout_editor_absoluteX="200dp"
                 tools:layout_editor_absoluteY="300dp" />
         </GridLayout>
+        <ImageButton
+            android:id="@+id/recommend_btn"
+            android:layout_width="280dp"
+            android:layout_height="75dp"
+            android:src="@drawable/recommend_btn"
+            android:scaleType="fitCenter"
+            android:background="#ffffff"
+            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
+            />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="85dp"
             android:src="@drawable/letter"
             android:scaleType="fitCenter"/>
