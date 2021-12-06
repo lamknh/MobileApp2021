@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backpic">
+
+<!--    <ImageView-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:src="@drawable/no_food"-->
+<!--        android:layout_gravity="center"/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="검색된 식당이 없습니다"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        />
+
+    <ImageView
+        android:src="@drawable/hungry"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"/>
+
+<!--    <ImageView-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:src="@drawable/sorry"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_gravity="center"/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="미안해요...!"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:letterSpacing="-0.05"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="60dp"
+        />
+
+    <ImageButton
+        android:id="@+id/btnExit"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back_init"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</LinearLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:orientation="vertical"-->
+<!--    android:gravity="center">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtFail"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="30dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:text="화면 잘... 나왔나요?"/>-->
+
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        android:src="@drawable/zzal"-->
+<!--        />-->
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="20dp"-->
+<!--        android:text="됐어! 돌아간다! 이제 잘 수 있어! 어헣헣헣"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnExit"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="돌아가기"/>-->
+
+<!--</LinearLayout>-->
