@@ -19,14 +19,14 @@ class worldcup_west1 : Activity() {
         var next = 2
         // 음식 렌덤 이미지 8개
         var FoodImage = intArrayOf(
-            R.drawable.one,
-            R.drawable.two,
-            R.drawable.three,
-            R.drawable.four,
-            R.drawable.five,
-            R.drawable.six,
-            R.drawable.tteokbokki,
-            R.drawable.ramen
+            R.drawable.cattlit,
+            R.drawable.pilaf,
+            R.drawable.pizza,
+            R.drawable.risotto,
+            R.drawable.salad,
+            R.drawable.soup,
+            R.drawable.spaghetti,
+            R.drawable.stake
         )
 
         //초기버튼 정의 및 실행
@@ -39,7 +39,7 @@ class worldcup_west1 : Activity() {
         }
 
         // 음식  이름
-        var FoodName = arrayOf("1","2","3","4","5","6","떡볶이", "라면")
+        var FoodName = arrayOf("커틀릿","필라프","피자","리조또","샐러드","수프","스파게티", "스테이크")
         var cupmaintext = arrayOf("8강 1/4","8강 2/4","8강 3/4","8강 4/4" )
         // left, right 버튼
         var left = findViewById<TextView>(R.id.leftFood)
